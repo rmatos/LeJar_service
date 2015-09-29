@@ -16,6 +16,14 @@ server.route({
 	}
 });
 
+server.route({
+	method:'GET',
+	path:'/',
+	handler:function(request,response){
+		response("Welcome to LeJar Backend Service. Hello Jar!");
+	}
+});
+
 
 server.start(function(){
 	console.log('Server is currently running at: '+ server.info.uri);
