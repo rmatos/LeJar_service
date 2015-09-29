@@ -1,0 +1,29 @@
+{
+  "name": "LeJar",
+  "version": "1.0.0",
+  "description": "Backend Project for LeJar Mobile App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rmatos/lejar_service.git"
+  },
+  "keywords": [
+    "LeJar",
+    "Polygons",
+    "hapi",
+    "mongoose",
+    "nodejs"
+  ],
+  "author": "Rudy E. Matos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rmatos/lejar_service/issues"
+  },
+  "homepage": "https://github.com/rmatos/lejar_service",
+  "dependencies": {
+    "hapi": "^10.1.0"
+  }
+}
