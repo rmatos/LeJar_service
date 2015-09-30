@@ -24,9 +24,10 @@
   },
   "homepage": "https://github.com/rmatos/lejar_service",
   "dependencies": {
-    "hapi": "^10.1.0"
+    "hapi": "^10.1.0",
+    "mongoose": "^4.1.9"
   },
-  "engines":{
-    "node":"0.12.x"
+  "engines": {
+    "node": "0.12.x"
   }
 }
