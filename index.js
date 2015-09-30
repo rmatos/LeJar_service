@@ -14,8 +14,8 @@ var Entry = mongoose.model('Entries', entrySchema);
 
 
 //Connection to MongoDB 
-// var mongoConnectionString = process.env.MONGO_CONNECTION_STRING
-mongoose.connect('mongodb://admin:r1mat0s@ds051893.mongolab.com:51893/lejar_db');
+var mongoConnectionString = process.env.MONGO_CONNECTION_STRING
+mongoose.connect(mongoConnectionString);
 var db = mongoose.connection;
 
 //Auxiliar var
