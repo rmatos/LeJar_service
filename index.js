@@ -33,22 +33,119 @@ function getRandomAmount(){
 
 
 //Routes
+var NOT_YET_IMPLEMENTED_RESPONSE = {errorMessage: "Method not yet implemented"};
+
+//Amount Routes
 server.route({
 	method:'GET',
-	path:'/getAmount/random',
+	path:'/amount/random',
 	handler:function(request,response){
 		response({randomAmount:getRandomAmount()});
 	}
 });
 
 server.route({
+	method:'GET',
+	path:'/amount/all',
+	handler:function(request,response){
+		response({validAmounts: moneyAmounts});
+	}
+});
+
+
+//Entries Routes
+server.route({
 	method : 'GET',
-	path: '/entry/getAll',
+	path: '/entries/all',
 	handler : function(request, response){
 		response(Entry.find());
 	}
 
+});
+
+server.route({
+	method : 'GET',
+	path: '/entries/todays',
+	handler : function(request, response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+	}
+});
+
+
+server.route({
+	method : 'GET',
+	path: '/entries/byUserId/{id}',
+	handler : function(request, response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+	}
+});
+
+
+server.route({
+	method : 'GET',
+	path: '/entries/byDay/{date}',
+	handler : function(request, response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+	}
+});
+
+server.route({
+	method : 'GET',
+	path: '/entries/betweenDays/{startingDay}/{endingDay}',
+	handler : function(request, response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+	}
+});
+
+//TOTALs
+
+server.route({
+	method:'GET',
+	path:'/getTotals/todays',
+	handler:function(request,response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+
+	}
+});
+
+
+server.route({
+	method:'GET',
+	path:'/getTotals/total',
+	handler:function(request,response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+
+	}
+});
+
+
+server.route({
+	method:'GET',
+	path:'/getTotals/maxInADay',
+	handler:function(request,response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+	}
+});
+
+
+server.route({
+	method:'GET',
+	path:'/getBalance/total',
+	handler:function(request,response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+
+	}
 })
+
+server.route({
+	method:'GET',
+	path:'/getBalance/goal',
+	handler:function(request,response){
+		response(NOT_YET_IMPLEMENTED_RESPONSE);
+
+	}
+})
+
 
 server.route({
 	method : 'POST',
