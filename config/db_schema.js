@@ -20,7 +20,7 @@ var entrySchema = new Schema({
 		,archived : Boolean}
 });
 
-var mongoConnectionString = process.env.MONGO_CONNECTION_STRING || 'mongodb://admin:r1mat0s@ds051893.mongolab.com:51893/lejar_db';
+var mongoConnectionString = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(mongoConnectionString);
 
 exports.db = mongoose.connection;
