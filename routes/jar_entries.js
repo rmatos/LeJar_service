@@ -1,5 +1,5 @@
-var constants 		= require('../utilities/constants.js')
-	,db    			= require('../config/db_schema.js') 
+var constants 		= require('../utilities/constants.js'),
+	db    			= require('../config/db_schema.js');
 
 module.exports = function(server){
 	server.route({
@@ -53,10 +53,12 @@ module.exports = function(server){
 				jar : {name : request.payload.jar_name, goal : request.payload.goal, expended_on:null, used_on:null, archived:false},
 				type: {name : request.payload.entry_type , archived: false}
 			});
-			currentEntry.save();
+			currentEntry.save(function(error){
+				if(error) return handlerError(error);
+			});
 			response({response:200});
 		}
 	});
 
 
-}
+};

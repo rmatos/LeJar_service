@@ -7,7 +7,7 @@ module.exports = function(server){
 			response(NOT_YET_IMPLEMENTED_RESPONSE);
 
 		}
-	})
+	});
 
 	server.route({
 		method:'GET',
@@ -16,5 +16,5 @@ module.exports = function(server){
 			response(NOT_YET_IMPLEMENTED_RESPONSE);
 
 		}
-	})
-}
+	});
+};
