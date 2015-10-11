@@ -1,11 +1,9 @@
-var moneyAmounts = [25,50,75,100];
-
 module.exports = function(server){
 	server.route({
 		method:'GET',
 		path:'/amount/random',
 		handler:function(request,response){
-			response({randomAmount:App.utility.getRandomIndexFromArray(moneyAmounts)});
+			response({randomAmount:App.utility.getRandomIndexFromArray(App.amounts)});
 		}
 	});
 
@@ -13,7 +11,8 @@ module.exports = function(server){
 		method:'GET',
 		path:'/amount/all',
 		handler:function(request,response){
-			response({validAmounts: moneyAmounts});
+			response({validAmounts: App.amounts});
 		}
 	});
 };
+

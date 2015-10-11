@@ -2,12 +2,12 @@ var env 				= process.env.NODE_ENV || 'development',
 	packageJSON			= require('../package.json'),
 	utils 				= require('../utilities/utils') ,
 	hapi 				= require('hapi'),
-	jar_entries_routes 	= require('../routes/jar_entries'),
+	jar_entries_routes 	= require('../routes/entries'),
 	amount 				= require('../routes/amounts'),
 	totals 				= require('../routes/totals'),
 	balance 			= require('../routes/balance'),
 	users 				= require('../routes/users'),
-	db					= require('./db_schema')
+	db					= require('./db_schema'),
 	generic 			= require('../routes/generic');
 
 console.log('Loading App in '+env+' mode.');
@@ -16,6 +16,7 @@ var server = new hapi.Server();
 global.App = {
 	hapiServer : server,
 	utility : utils,
+	amounts : [25,50,75,100],
 	port : process.env.PORT || 3000,
 	env : env,
 	version : packageJSON.version,
