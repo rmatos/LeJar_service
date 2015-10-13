@@ -31,5 +31,18 @@ module.exports = function(server){
 		}
 	});
 
-
+	server.route({
+		method:'GET',
+		path: '/users/all',
+		handler:function(request,response){			
+			App.dbObj.User.find().exec(function(error, users){
+				if(error){
+					console.log("Error gettting the user"); 
+					response({"errorMessage": "Error getting users with message: "+error});
+				}else{
+					response({"users":users});
+				}
+			});
+		}
+	});
 };

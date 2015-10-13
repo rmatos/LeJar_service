@@ -1,5 +1,6 @@
 exports.NOT_YET_IMPLEMENTED_RESPONSE = {errorMessage: "Method not yet implemented"};
 
+exports.MAINTENANCE_USERNAME = "maintenance";
 
 //USER Module
 exports.USER_CREATED_SUCCESSFULLY = {message : "User created successfully"};
@@ -12,5 +13,7 @@ exports.INVALID_JAR_ID= {errorCode : 400, errorMessage: "Invalid jar id to creat
 exports.RECORD_ALREADY_CREATED = {errorCode: 400, errorMessage : "User already has an entry for today"};
 exports.RECORD_CREATED_SUCCESSFULLY = {message : "Record created successfully"};
 
+exports.ENTRY_TYPE_NORMAL = "normal";
+exports.ENTRY_TYPE_MAINTENANCE = "maintenance";
 
 
