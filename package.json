@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/rmatos/lejar_service",
   "dependencies": {
+    "blipp": "^2.3.0",
     "hapi": "^10.1.0",
     "mongoose": "^4.1.9"
   },

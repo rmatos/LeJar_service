@@ -85,7 +85,7 @@ module.exports = function(server) {
 
 		server.route({
 			method: 'GET',
-			path: '/entries/betweenDays/startingDate/{startingDate}/endingDate/{endingDate}',
+			path: '/entries/betweenDates/startingDate/{startingDate}/endingDate/{endingDate}',
 			handler: function(request, response) {
 				var startingDateString = request.params.startingDate;
 				var endingDateString = request.params.endingDate;
@@ -104,17 +104,17 @@ module.exports = function(server) {
 							}
 						});
 					}else{
-						handlerInvalidDateErrorMessage(response);
+						utils.handleInvalidDate(response);
 					}
 				}else{
-					handlerInvalidDateErrorMessage(response);
+					utils.handleInvalidDate(response);
 				}
 			}
 		});
 
 		server.route({
 			method: 'GET',
-			path: '/entries/betweenDays/startingDate/{startingDate}/endingDate/{endingDate}/byUserId/{userId}',
+			path: '/entries/betweenDates/startingDate/{startingDate}/endingDate/{endingDate}/byUserId/{userId}',
 			handler: function(request, response) {
 				var startingDateString 	= request.params.startingDate;
 				var endingDateString 	= request.params.endingDate;
@@ -140,10 +140,10 @@ module.exports = function(server) {
 										}
 									});
 								}else{
-									handlerInvalidDateErrorMessage(response);
+									utils.handleInvalidDate(response);
 								}
 							}else{
-								handlerInvalidDateErrorMessage(response);
+								utils.handleInvalidDate(response);
 							}
 						}
 					});
@@ -215,8 +215,6 @@ module.exports = function(server) {
 			}
 		});
 
-		function handlerInvalidDateErrorMessage(response){
-			response({"errorMessage": "Invalid Date"});
-		}
+		
 
 };
