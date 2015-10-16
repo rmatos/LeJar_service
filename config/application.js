@@ -24,7 +24,7 @@ global.App = {
 	version : packageJSON.version,
 	dbObj : db,
 	start : function(){
-		App.hapiServer.connection({port:App.port});
+		App.hapiServer.connection({port:App.port , routes : {cors : true}});
 		jar_entries_routes(App.hapiServer);
 		amount(App.hapiServer);
 		totals(App.hapiServer);
