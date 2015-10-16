@@ -24,6 +24,37 @@ module.exports = function(server){
 
 	server.route({
 		method:'GET',
+		path:'/balance/total/byUserId/{userId}',
+		handler:function(request,response){
+			var userId 				= request.params.userId;
+			App.dbObj.User.findOne({_id:userId}, function(error, user){
+				if(error){
+						console.log("Error getting user with error: "+error);
+						response({"errorMessage":error});
+				}else{
+					App.dbObj.Entry.find({user:user._id}).exec(function(error, entries){
+						if(error){
+							console.log("Error getting entries with error: "+error);
+							response({"errorMessage":error});
+						}else{
+							if(user.username === constants.MAINTENANCE_USERNAME){
+								var sum = 0;
+								for(var i = 0; i < entries.length ; i++){
+									sum += entries[i].amount;
+								}
+								response({"todays_maintenance_balance":sum});
+							}else{
+								response({"todays_balance" : entries[0].amount, "paid": entries[0].paid});
+							}
+						}
+					});
+				}
+			});
+		}
+	});
+
+	server.route({
+		method:'GET',
 		path:'/balance/todays',
 		handler:function(request,response){
 			var todaysDate = new Date();
@@ -54,7 +85,6 @@ module.exports = function(server){
 		handler:function(request,response){
 			var userId 				= request.params.userId;
 			var todaysDate 			= new Date();
-			console.log("*todays: "+todaysDate);
 			App.dbObj.User.findOne({_id:userId}, function(error, user){
 				if(error){
 						console.log("Error getting user with error: "+error);
@@ -72,7 +102,6 @@ module.exports = function(server){
 								}
 								response({"todays_maintenance_balance":sum});
 							}else{
-								console.log(entries);
 								response({"todays_balance" : entries[0].amount, "paid": entries[0].paid});
 							}
 						}
