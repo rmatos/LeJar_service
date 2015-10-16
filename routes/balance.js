@@ -44,7 +44,11 @@ module.exports = function(server){
 								}
 								response({"todays_maintenance_balance":sum});
 							}else{
-								response({"todays_balance" : entries[0].amount, "paid": entries[0].paid});
+								if(entries.length  > 0){
+									response({"todays_balance" : entries[0].amount, "paid": entries[0].paid});
+								}else{
+									response({"todays_balance" : 0 , "paid" : false});
+								}
 							}
 						}
 					});
@@ -102,7 +106,11 @@ module.exports = function(server){
 								}
 								response({"todays_maintenance_balance":sum});
 							}else{
-								response({"todays_balance" : entries[0].amount, "paid": entries[0].paid});
+								if(entries.length  > 0){
+									response({"todays_balance" : entries[0].amount, "paid": entries[0].paid});
+								}else{
+									response({"todays_balance" : 0 , "paid" : false});
+								}
 							}
 						}
 					});
