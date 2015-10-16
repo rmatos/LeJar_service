@@ -54,6 +54,7 @@ module.exports = function(server){
 		handler:function(request,response){
 			var userId 				= request.params.userId;
 			var todaysDate 			= new Date();
+			console.log("*todays: "+todaysDate);
 			App.dbObj.User.findOne({_id:userId}, function(error, user){
 				if(error){
 						console.log("Error getting user with error: "+error);
@@ -71,6 +72,7 @@ module.exports = function(server){
 								}
 								response({"todays_maintenance_balance":sum});
 							}else{
+								console.log(entries);
 								response({"todays_balance" : entries[0].amount, "paid": entries[0].paid});
 							}
 						}

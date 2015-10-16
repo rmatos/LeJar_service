@@ -44,6 +44,7 @@ module.exports = function(server) {
         	path: '/entries/todays',
         	handler: function(request, response) {
         		var todaysDate = new Date();
+        		console.log(todaysDate);
         		App.dbObj.Entry.find({entry_date: {"$gte": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '0', '0', '0'), "$lt": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '23', '59', '59')}},function(error, entries) {
         			if (error) {
         				console.log("Error getting entry with message:" + error);
@@ -154,17 +155,12 @@ module.exports = function(server) {
 		});
 
 		server.route({
-			method: 'POST',
-			path: '/entries/add/',
+			method: 'GET',
+			path: '/entries/add/byUserId/{user_id}/{maintenance_amount?}',
 			handler: function(request, response) {
 
-				var userId 					= request.payload.user_id;
-				var wasPaid 				= request.payload.was_paid;
-				var amountForMaintenance 	= request.payload.maintenance_amount;
-
-				if(wasPaid === undefined){
-					wasPaid = false;
-				}
+				var userId 					= request.params.user_id;
+				var amountForMaintenance 	= request.params.maintenance_amount;
 
 				if (userId !== undefined) {
 					App.dbObj.User.findOne({_id: userId }, function(error, user) {
@@ -195,7 +191,7 @@ module.exports = function(server) {
 										if (entry !== null) {
 											response(constants.RECORD_ALREADY_CREATED);
 										} else {
-											var entryToSave = App.dbObj.Entry({entry_date: new Date(), amount: utils.getRandomIndexFromArray(App.amounts), paid : wasPaid, user: user._id, type: constants.ENTRY_TYPE_NORMAL});
+											var entryToSave = App.dbObj.Entry({entry_date: new Date(), amount: utils.getRandomIndexFromArray(App.amounts), paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL});
 											entryToSave.save(function(error) {
 												if (error) {
 													response({errorCode: 400, errorMessage: error });
