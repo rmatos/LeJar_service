@@ -1,6 +1,5 @@
 var constants 	= require('../utilities/constants'),
-	utils 		= require('../utilities/utils'),
-	amount 		= require('./amounts');
+	utils 		= require('../utilities/utils');
 
 module.exports = function(server) {
 

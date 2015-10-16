@@ -4,8 +4,7 @@ var env 				= process.env.NODE_ENV || 'development',
 	hapi 				= require('hapi'),
 	Blipp 				= require('blipp'),
 	jar_entries_routes 	= require('../routes/entries'),
-	amount 				= require('../routes/amounts'),
-	totals 				= require('../routes/totals'),
+	maintenance 				= require('../routes/maintenance'),
 	balance 			= require('../routes/balance'),
 	users 				= require('../routes/users'),
 	db					= require('./db_schema'),
@@ -26,8 +25,7 @@ global.App = {
 	start : function(){
 		App.hapiServer.connection({port:App.port , routes : {cors : true}});
 		jar_entries_routes(App.hapiServer);
-		amount(App.hapiServer);
-		totals(App.hapiServer);
+		maintenance(App.hapiServer);
 		balance(App.hapiServer);
 		generic(App.hapiServer);
 		users(App.hapiServer);

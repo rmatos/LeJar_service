@@ -1,7 +1,7 @@
 module.exports = function(server){
 	server.route({
 		method:'GET',
-		path:'/amount/random',
+		path:'/maintenance/amount/random',
 		handler:function(request,response){
 			response({randomAmount:App.utility.getRandomIndexFromArray(App.amounts)});
 		}
@@ -9,7 +9,7 @@ module.exports = function(server){
 
 	server.route({
 		method:'GET',
-		path:'/amount/all',
+		path:'/maintenance/amount/all',
 		handler:function(request,response){
 			response({validAmounts: App.amounts});
 		}
