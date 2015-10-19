@@ -190,12 +190,13 @@ module.exports = function(server) {
 										if (entry !== null) {
 											response(constants.RECORD_ALREADY_CREATED);
 										} else {
-											var entryToSave = App.dbObj.Entry({entry_date: new Date(), amount: utils.getRandomIndexFromArray(App.amounts), paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL});
+											var amount = utils.getRandomIndexFromArray(App.amounts);
+											var entryToSave = App.dbObj.Entry({entry_date: new Date(), amount: amount, paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL});
 											entryToSave.save(function(error) {
 												if (error) {
 													response({errorCode: 400, errorMessage: error });
 												} else {
-													response(constants.RECORD_CREATED_SUCCESSFULLY);
+													response({"random_amount" : amount});
 												}
 											});
 										}
