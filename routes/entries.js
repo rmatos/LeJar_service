@@ -1,5 +1,6 @@
 var constants 	= require('../utilities/constants'),
-	utils 		= require('../utilities/utils');
+	utils 		= require('../utilities/utils'),
+	dbui   		= require('../jojos/dashboard_by_user_id');
 
 module.exports = function(server) {
 
@@ -36,6 +37,39 @@ module.exports = function(server) {
 				}
 			}
         });
+
+
+	    server.route({
+        	method: 'GET',
+        	path: '/entries/dashboard/byUserId/{userId}',
+        	handler: function(request, response) {
+				var userId = request.params.userId;
+				var currentDBUI = dbui.DashboardCE;
+				if (userId !== undefined) {
+					App.dbObj.User.findOne({_id: userId }, function(error, user) {
+						if (error || user === null) {
+							console.log("Error getting user with ID: " + userId);
+							response(constants.INVALID_USER_ID);
+						} else {
+							console.log("User found with the following info: " + user._id);
+							App.dbObj.Entry.find({}, function(error, entries) {
+								if (error) {
+									console.log("Error getting entry with message:" + error);
+									response({errorCode: 400, errorMessage: error });
+								} else {
+									var balance = utils.calculateTotalBalance(entries);
+									currentDBUI.name = user.first_name + " "+user.last_name;
+									currentDBUI.totalBalancePaid = balance.totalBalancePaid;
+									currentDBUI.totalBalanceUnpaid = balance.totalBalanceUnpaid;
+									response(currentDBUI);
+								}
+							});
+						}
+					});
+				}
+			}
+        });
+
 
 
         server.route({
