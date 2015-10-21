@@ -57,15 +57,15 @@ module.exports = function(server) {
 									response({errorCode: 400, errorMessage: error });
 								} else {
 									var balance = utils.calculateTotalBalance(entries);
-									var todaysPersonalBalance = utils.calculateTodaysPersonalBalance(entries, user._id);
-									var totalPersonalBalance = utils.calculateTotalPersonalBalance(entries,user._id);
+									var todPB = utils.calculateTodaysPersonalBalance(entries, user._id);
+									var totPB = utils.calculateTotalPersonalBalance(entries,user._id);
 									currentDBUI.name = user.first_name + " "+user.last_name;
-									currentDBUI.totalBalancePaid = balance.totalBalancePaid;
-									currentDBUI.totalBalanceUnpaid = balance.totalBalanceUnpaid;
-									currentDBUI.todaysPersonalBalancePaid = todaysPersonalBalance.todaysPersonalBalancePaid;
-									currentDBUI.todaysPersonalBalanceUnpaid = todaysPersonalBalance.todaysPersonalBalanceUnpaid;
-									currentDBUI.totalPersonalBalancePaid = totalPersonalBalance.totalPersonalBalancePaid;
-									currentDBUI.totalPersonalBalanceUnpaid = totalPersonalBalance.totalPersonalBalanceUnpaid;
+									currentDBUI.total_balance_paid = balance.total_balance_paid;
+									currentDBUI.total_balance_unpaid = balance.total_balance_unpaid;
+									currentDBUI.todays_personal_balance_paid = todPB.todays_personal_balance_paid;
+									currentDBUI.todays_personal_balance_unpaid = todPB.todays_personal_balance_unpaid;
+									currentDBUI.total_personal_balance_paid = totPB.total_personal_balance_paid;
+									currentDBUI.total_personal_balance_unpaid = totPB.total_personal_balance_unpaid;
 									response(currentDBUI);
 								}
 							});

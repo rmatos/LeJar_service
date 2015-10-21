@@ -1,9 +1,9 @@
 exports.DashboardCE = {
 	name : "",
-	totalBalancePaid : 0.0,
-	totalBalanceUnpaid : 0.0, 
-	todaysPersonalBalancePaid : 0.0, 
-	todaysPersonalBalanceUnpaid : 0.0,
-	totalPersonalBalancePaid : 0.0,
-	totalPersonalBalanceUnpaid : 0.0
+	total_balance_paid : 0.0,
+	total_balance_unpaid : 0.0, 
+	todays_personal_balance_paid : 0.0, 
+	todays_personal_balance_unpaid : 0.0,
+	total_personal_balance_paid : 0.0,
+	total_personal_balance_unpaid : 0.0
 };

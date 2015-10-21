@@ -13,15 +13,15 @@ exports.handleInvalidDate = function handlerInvalidDateErrorMessage(response){
 
 exports.calculateTotalBalance = function calculateTotalBalance(entries){
 	var balance = {
-		totalBalancePaid : 0,
-		totalBalanceUnpaid : 0
+		total_balance_paid : 0,
+		total_balance_unpaid : 0
 	};
 	if(entries!== undefined && entries.length > 0){
 		for (var i = 0; i <= entries.length -1 ; i++) {
 			if(entries[i].paid === true){
-				balance.totalBalancePaid += entries[i].amount;
+				balance.total_balance_paid += entries[i].amount;
 			}else{
-				balance.totalBalanceUnpaid += entries[i].amount;
+				balance.total_balance_unpaid += entries[i].amount;
 			}
 		}
 	}
@@ -31,16 +31,16 @@ exports.calculateTotalBalance = function calculateTotalBalance(entries){
 
 exports.calculateTodaysPersonalBalance = function calculateTodaysPersronalBalance(entries, user_id){
 	var todaysPersonalBalance = {
-		todaysPersonalBalancePaid : 0,
-		todaysPersonalBalanceUnpaid : 0
+		todays_personal_balance_paid : 0,
+		todays_personal_balance_unpaid : 0
 	};
 	if(entries !== undefined && entries.length > 0){
 		for (var i = 0; i <= entries.length -1 ; i++) {
 			if(entries[i] !== undefined && entries[i].entry_date >= todaysMinDatetime && entries[i].entry_date <= todaysMaxDatetime && entries[i].user.toString() === user_id.toString()){
 				if(entries[i].paid === true){
-					todaysPersonalBalance.todaysPersonalBalancePaid += entries[i].amount;
+					todaysPersonalBalance.todays_personal_balance_paid += entries[i].amount;
 				}else{
-					todaysPersonalBalance.todaysPersonalBalanceUnpaid += entries[i].amount;
+					todaysPersonalBalance.todays_personal_balance_unpaid += entries[i].amount;
 				}
 			}
 		}
@@ -51,17 +51,16 @@ exports.calculateTodaysPersonalBalance = function calculateTodaysPersronalBalanc
 
 exports.calculateTotalPersonalBalance= function calculateTotalPersonalBalance(entries, user_id){
 	var totalPersonalBalance = {
-		totalPersonalBalancePaid : 0,
-		totalPersonalBalanceUnpaid : 0
+		total_personal_balance_paid : 0,
+		total_personal_balance_unpaid : 0
 	};
 	if(entries !== undefined && entries.length > 0){
 		for (var i = 0; i <= entries.length -1 ; i++) {
 			if(entries[i].user.toString() === user_id.toString()){
-				console.log("entering here");
 				if(entries[i].paid === true){
-					totalPersonalBalance.totalPersonalBalancePaid += entries[i].amount;
+					totalPersonalBalance.total_personal_balance_paid += entries[i].amount;
 				}else{
-					totalPersonalBalance.totalPersonalBalanceUnpaid += entries[i].amount;
+					totalPersonalBalance.total_personal_balance_unpaid += entries[i].amount;
 				}
 			}
 		}
