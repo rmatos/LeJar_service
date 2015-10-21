@@ -277,4 +277,23 @@ module.exports = function(server) {
 			}
 		});
 
+		server.route({
+			method: 'DELETE',
+			path: '/entries/cancel/byEntryId/{entry_id}',
+			handler: function(request, response) {
+				var entryId 					= request.params.entry_id;
+				if (entryId !== undefined) {
+					App.dbObj.Entry.findOneAndRemove({_id: entryId }, function(error, entry) {
+						if (error || entry === null) {
+							response(constants.INVALID_ENTRY_ID);
+						} else {
+							response(constants.RECORD_REMOVED_SUCCESSFULLY);
+						}
+					});
+				} else {
+					response(constants.INVALID_USER_ID);
+				}
+			}
+		});
+
 };
