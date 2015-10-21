@@ -51,16 +51,21 @@ module.exports = function(server) {
 							console.log("Error getting user with ID: " + userId);
 							response(constants.INVALID_USER_ID);
 						} else {
-							console.log("User found with the following info: " + user._id);
 							App.dbObj.Entry.find({}, function(error, entries) {
 								if (error) {
 									console.log("Error getting entry with message:" + error);
 									response({errorCode: 400, errorMessage: error });
 								} else {
 									var balance = utils.calculateTotalBalance(entries);
+									var todaysPersonalBalance = utils.calculateTodaysPersonalBalance(entries, user._id);
+									var totalPersonalBalance = utils.calculateTotalPersonalBalance(entries,user._id);
 									currentDBUI.name = user.first_name + " "+user.last_name;
 									currentDBUI.totalBalancePaid = balance.totalBalancePaid;
 									currentDBUI.totalBalanceUnpaid = balance.totalBalanceUnpaid;
+									currentDBUI.todaysPersonalBalancePaid = todaysPersonalBalance.todaysPersonalBalancePaid;
+									currentDBUI.todaysPersonalBalanceUnpaid = todaysPersonalBalance.todaysPersonalBalanceUnpaid;
+									currentDBUI.totalPersonalBalancePaid = totalPersonalBalance.totalPersonalBalancePaid;
+									currentDBUI.totalPersonalBalanceUnpaid = totalPersonalBalance.totalPersonalBalanceUnpaid;
 									response(currentDBUI);
 								}
 							});
