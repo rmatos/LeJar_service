@@ -23,6 +23,7 @@ var userSchema  = new Schema({
 
 var applicationConfigSchema = new Schema({
 	application_modes : [],
+	application_current_mode : String,
 	application_name : String,
 	application_version : String
 });
