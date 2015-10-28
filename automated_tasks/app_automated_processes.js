@@ -3,31 +3,28 @@ var nodemailer 	= require('nodemailer'),
 
 	
 function changeLeJarMode(){
-	db.ApplicationConfig.find(function(error, appConfig){
+	db.ApplicationConfig.findOne(function(error, appConfig){
 			if(error) return console.log(error);
 			var availableModes = appConfig.application_modes;
 			var currentMode = appConfig.application_current_mode;
 			console.log("Current Mode: "+currentMode);
 			currentMode = generateRandomMode(availableModes,currentMode);
 			console.log('mode : '+currentMode);
-				db.ApplicationConfig.save(function(error, updated){
-					if(error) return console.log(error);
-					console.log("New Mode updated. Application now running with on "+ currentMode +" mode");
-				});
+			appConfig.application_current_mode = currentMode;
+			appConfig.save(function(error){
+				if(error) return console.log(error);
+				console.log("New Mode updated. Application now running with on "+ currentMode +" mode");
+				notifyUsers(currentMode);
+			});
 		});	
 }
 
 function generateRandomMode(availableModes , currentMode){
-
-	// console.log(availableModes);
-	// console.log(currentMode);
 	var foundNewMode = false;
 	var newMode = null;
 	if(availableModes && availableModes.length > 0 && currentMode){
 		while(!foundNewMode){
 			var randomIndex = Math.round(Math.random() * (availableModes.length-1));
-			console.log(randomIndex);
-			console.log(availableModes[randomIndex]);
 			if(availableModes[randomIndex] !== currentMode){
 				newMode = availableModes[randomIndex];
 				foundNewMode = true;
@@ -39,7 +36,7 @@ function generateRandomMode(availableModes , currentMode){
 	return newMode;
 }
 
-function sendTestEmail(){
+function notifyUsers(applicationMode){
 	var transporter = nodemailer.createTransport({
 		service : 'Gmail',
 		auth:{
@@ -50,8 +47,8 @@ function sendTestEmail(){
 	var mailOptions = {
 		from 	: 'le-jar-service@lejar-service.noreply.com',
 		to 	 	: 'rmena28@gmail.com,rudy.e.matos@gmail.com,rudy12118@gmail.com',
-		subject : 'Testing Heroku Scheduler',
-		html 	: '<b> This is a test from Heroku Running an scheduler <b/>'
+		subject : 'Application Mode has been changed.',
+		html 	: '<b>Application is currently running on '+applicationMode+' mode<b/>'
 	};
 	transporter.sendMail(mailOptions,function(error, info){
 		if(error) return console.log(error);

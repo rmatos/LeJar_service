@@ -31,7 +31,7 @@ var applicationConfigSchema = new Schema({
 var mongoConnectionString = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(mongoConnectionString);
 
-exports.ApplicationConfig 	= mongoose.model('ApplicationConfig', applicationConfigSchema); 
+exports.ApplicationConfig 	= mongoose.model('Application_Config', applicationConfigSchema); 
 exports.Entry 				= mongoose.model('Entries', entrySchema);
 exports.User 				= mongoose.model('User', userSchema);
 exports.dbConnection 		= mongoose.connection;
