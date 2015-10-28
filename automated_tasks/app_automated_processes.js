@@ -2,8 +2,39 @@ var nodemailer = require('nodemailer');
 	
 function changeLeJarMode(){
 	App.dbObj.ApplicationConfig.find(function(error, appConfig){
-		console.log(appConfig);
-	});
+			if(error) return console.log(error);
+			var availableModes = appConfig.application_modes;
+			var currentMode = appConfig.application_current_mode;
+			console.log("Current Mode: "+currentMode);
+			currentMode = generateRandomMode(availableModes,currentMode);
+			console.log('mode : '+currentMode);
+				App.dbObj.ApplicationConfig.save(function(error, updated){
+					if(error) return console.log(error);
+					console.log("New Mode updated. Application now running with on "+ currentMode +" mode");
+				});
+		});	
+}
+
+function generateRandomMode(availableModes , currentMode){
+
+	// console.log(availableModes);
+	// console.log(currentMode);
+	var foundNewMode = false;
+	var newMode = null;
+	if(availableModes && availableModes.length > 0 && currentMode){
+		while(!foundNewMode){
+			var randomIndex = Math.round(Math.random() * (availableModes.length-1));
+			console.log(randomIndex);
+			console.log(availableModes[randomIndex]);
+			if(availableModes[randomIndex] !== currentMode){
+				newMode = availableModes[randomIndex];
+				foundNewMode = true;
+			}	
+		}
+	}
+
+	console.log('new mode found : '+newMode);
+	return newMode;
 }
 
 function sendTestEmail(){

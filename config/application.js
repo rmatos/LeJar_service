@@ -1,14 +1,15 @@
-var env 				= process.env.NODE_ENV || 'development',
-	packageJSON			= require('../package.json'),
-	utils 				= require('../utilities/utils') ,
-	hapi 				= require('hapi'),
-	Blipp 				= require('blipp'),
-	jar_entries_routes 	= require('../routes/entries'),
-	maintenance 				= require('../routes/maintenance'),
-	balance 			= require('../routes/balance'),
-	users 				= require('../routes/users'),
-	db					= require('./db_schema'),
-	generic 			= require('../routes/generic');
+var env 					= process.env.NODE_ENV || 'development',
+	packageJSON				= require('../package.json'),
+	utils 					= require('../utilities/utils') ,
+	hapi 					= require('hapi'),
+	Blipp 					= require('blipp'),
+	jar_entries_routes 		= require('../routes/entries'),
+	maintenance 			= require('../routes/maintenance'),
+	balance 				= require('../routes/balance'),
+	users 					= require('../routes/users'),
+	db						= require('./db_schema'),
+	app_automated_processes = require('../automated_tasks/app_automated_processes'),
+	generic 				= require('../routes/generic');
 
 console.log('Loading App in '+env+' mode.');
 var server = new hapi.Server();
