@@ -1,14 +1,16 @@
-var nodemailer = require('nodemailer');
+var nodemailer 	= require('nodemailer'),
+	db			= require('../config/db_schema');
+
 	
 function changeLeJarMode(){
-	App.dbObj.ApplicationConfig.find(function(error, appConfig){
+	db.ApplicationConfig.find(function(error, appConfig){
 			if(error) return console.log(error);
 			var availableModes = appConfig.application_modes;
 			var currentMode = appConfig.application_current_mode;
 			console.log("Current Mode: "+currentMode);
 			currentMode = generateRandomMode(availableModes,currentMode);
 			console.log('mode : '+currentMode);
-				App.dbObj.ApplicationConfig.save(function(error, updated){
+				db.ApplicationConfig.save(function(error, updated){
 					if(error) return console.log(error);
 					console.log("New Mode updated. Application now running with on "+ currentMode +" mode");
 				});
