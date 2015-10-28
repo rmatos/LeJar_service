@@ -21,11 +21,18 @@ var userSchema  = new Schema({
 	picture_path: String
 });
 
+var applicationConfigSchema = new Schema({
+	application_modes : [],
+	application_name : String,
+	application_version : String
+});
+
 var mongoConnectionString = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(mongoConnectionString);
 
-exports.Entry = mongoose.model('Entries', entrySchema);
-exports.User = mongoose.model('User', userSchema);
-exports.dbConnection = mongoose.connection;
+exports.ApplicationConfig 	= mongoose.model('ApplicationConfig', applicationConfigSchema); 
+exports.Entry 				= mongoose.model('Entries', entrySchema);
+exports.User 				= mongoose.model('User', userSchema);
+exports.dbConnection 		= mongoose.connection;
 
 

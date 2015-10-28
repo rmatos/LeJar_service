@@ -1,7 +1,12 @@
 var nodemailer = require('nodemailer');
-
+	
 function changeLeJarMode(){
+	App.dbObj.ApplicationConfig.find(function(error, appConfig){
+		console.log(appConfig);
+	});
+}
 
+function sendTestEmail(){
 	var transporter = nodemailer.createTransport({
 		service : 'Gmail',
 		auth:{
