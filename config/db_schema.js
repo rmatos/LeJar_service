@@ -6,7 +6,8 @@ var entrySchema = new Schema({
 	amount : Number,
 	paid : Boolean,
 	user:{ type : Schema.Types.ObjectId, ref :'User' },
-	type : String
+	type : String,
+	approved_by:{ type : Schema.Types.ObjectId, ref : 'User'}
 });
 
 
@@ -15,6 +16,8 @@ var userSchema  = new Schema({
 	last_name : String,
 	username :  String,
 	position : String,
+	is_user_maintenance : Boolean,
+	is_user_approver : Boolean, 
 	picture_path: String
 });
 

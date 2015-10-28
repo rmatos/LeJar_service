@@ -252,21 +252,36 @@ module.exports = function(server) {
 
 		server.route({
 			method: 'PUT',
-			path: '/entries/paid/byEntryId/{entry_id}',
+			path: '/entries/paid/byEntryId/{entry_id}/approvedByUserId/{user_id}',
 			handler: function(request, response) {
-				var entryId 					= request.params.entry_id;
-				if (entryId !== undefined) {
-					App.dbObj.Entry.findOne({_id: entryId }, function(error, entry) {
-						if (error || entry === null) {
-							response(constants.INVALID_ENTRY_ID);
-						} else {
-							console.log(entry);
-							entry.paid = true;
-							entry.save(function(error) {
-								if (error) {
-									response({errorCode: 400, errorMessage: error });
+				var entryId = request.params.entry_id;
+				var userId 	=request.params.user_id;
+				if (entryId !== undefined && userId !== undefined) {
+					App.dbObj.User.findOne({_id:userId}, function(error, approver){
+						if(error || approver === null){
+							response({error_message : "Invalid user id"});
+						}else{
+							App.dbObj.Entry.findOne({_id: entryId }, function(error, entry) {
+								if (error || entry === null) {
+									response(constants.INVALID_ENTRY_ID);
 								} else {
-									response(constants.RECORD_UPDATED_SUCCESSFULLY);
+									if(approver.is_user_approver){
+										if(entry.user.toString() !== approver._id.toString()){
+											entry.paid = true;
+											entry.approved_by = approver._id;
+											entry.save(function(error) {
+												if (error) {
+													response({errorCode: 400, errorMessage: error });
+												} else {
+													response(constants.RECORD_UPDATED_SUCCESSFULLY);
+												}
+											});
+										}else{
+											response({errorMessage: "Approver cannot approve his own entry"});
+										}
+									}else{
+										response({errorMessage: "User is not an approver"});
+									}
 								}
 							});
 						}
