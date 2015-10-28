@@ -26,7 +26,8 @@
   "dependencies": {
     "blipp": "^2.3.0",
     "hapi": "^10.1.0",
-    "mongoose": "^4.1.9"
+    "mongoose": "^4.1.9",
+    "nodemailer": "^1.8.0"
   },
   "engines": {
     "node": "0.12.x"
