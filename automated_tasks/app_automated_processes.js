@@ -2,9 +2,6 @@ var nodemailer = require('nodemailer');
 
 function changeLeJarMode(){
 
-	console.log(process.env.EMAIL_USERNAME);
-	console.log(process.env.EMAIL_PASSWORD);
-
 	var transporter = nodemailer.createTransport({
 		service : 'Gmail',
 		auth:{
