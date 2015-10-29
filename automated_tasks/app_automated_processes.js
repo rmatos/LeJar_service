@@ -3,20 +3,20 @@ var nodemailer 	= require('nodemailer'),
 
 	
 function changeLeJarMode(){
-	db.ApplicationConfig.findOne(function(error, appConfig){
+	if(new Date().getDay() === 1){
+		db.ApplicationConfig.findOne(function(error, appConfig){
 			if(error) return console.log(error);
 			var availableModes = appConfig.application_modes;
 			var currentMode = appConfig.application_current_mode;
-			console.log("Current Mode: "+currentMode);
 			currentMode = generateRandomMode(availableModes,currentMode);
-			console.log('mode : '+currentMode);
 			appConfig.application_current_mode = currentMode;
 			appConfig.save(function(error){
 				if(error) return console.log(error);
 				console.log("New Mode updated. Application now running with on "+ currentMode +" mode");
 				notifyUsers(currentMode);
 			});
-		});	
+		});		
+	}
 }
 
 function generateRandomMode(availableModes , currentMode){
@@ -31,7 +31,6 @@ function generateRandomMode(availableModes , currentMode){
 			}	
 		}
 	}
-
 	console.log('new mode found : '+newMode);
 	return newMode;
 }

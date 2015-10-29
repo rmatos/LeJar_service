@@ -8,7 +8,6 @@ var env 					= process.env.NODE_ENV || 'development',
 	balance 				= require('../routes/balance'),
 	users 					= require('../routes/users'),
 	db						= require('./db_schema'),
-	app_automated_processes = require('../automated_tasks/app_automated_processes'),
 	generic 				= require('../routes/generic');
 
 console.log('Loading App in '+env+' mode.');
