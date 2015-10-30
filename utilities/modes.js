@@ -77,7 +77,7 @@ function suddenDeath(validAmountsArray, user, response){
 	});
 }
 
-function pacificMode(user){
+function pacificMode(user,response){
 	var amount = 0;
 	var currentHour = dateUtil.todaysDate.getHours();
 	var currentMinutes = dateUtil.todaysDate.getMinutes();
