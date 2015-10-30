@@ -81,9 +81,9 @@ function pacificMode(user,response){
 	var amount = 0;
 	var currentHour = dateUtil.todaysDate.getHours();
 	var currentMinutes = dateUtil.todaysDate.getMinutes();
-	console.log(currentHour);
-	console.log(currentMinutes);
-	if(currentHour >= 0){
+	console.log("current hour" +currentHour);
+	console.log("current minute " +currentMinutes);
+	if(currentHour >= 0 && currentMinutes >= 11){
 		if(currentMinutes >= 11 && currentMinutes <= 20){
 			amount = 25;
 		}else if(currentMinutes >= 21 && currentMinutes <=30){
