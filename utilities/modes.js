@@ -27,13 +27,13 @@ exports.generateEntryBasedOnCurrentAppMode = function generateEntryBasedOnCurren
 function saveEntity(amount, user, mode,response){
 	if(amount > 0){
 		var entryToSave = App.dbObj.Entry({entry_date: dateUtil.todaysDate, amount: amount, paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL, generated_on_mode : mode});
-		entryToSave.save(function(error) {
-			if (error) {
-				response({errorCode: 400, errorMessage: error });
-			} else {
+		// entryToSave.save(function(error) {
+		// 	if (error) {
+		// 		response({errorCode: 400, errorMessage: error });
+		// 	} else {
 				response({"random_amount" : amount});
-			}
-		});
+		// 	}
+		// });
 	}else{
 		response({"errorMessage" : "There was an error generating the amount."});
 	}
