@@ -79,12 +79,9 @@ function suddenDeath(validAmountsArray, user, response){
 
 function pacificMode(user,response){
 	var amount = 0;
-	console.log(dateUtil.todaysDate);
 	var currentHour = dateUtil.todaysDate.getHours();
 	var currentMinutes = dateUtil.todaysDate.getMinutes();
-	console.log("current hour" +currentHour);
-	console.log("current minute " +currentMinutes);
-	if(currentHour >= 0 && currentMinutes >= 11){
+	if(currentHour >= 9 && currentMinutes >= 11){
 		if(currentMinutes >= 11 && currentMinutes <= 20){
 			amount = 25;
 		}else if(currentMinutes >= 21 && currentMinutes <=30){
