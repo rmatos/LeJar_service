@@ -79,6 +79,7 @@ function suddenDeath(validAmountsArray, user, response){
 
 function pacificMode(user,response){
 	var amount = 0;
+	console.log(dateUtil.todaysDate);
 	var currentHour = dateUtil.todaysDate.getHours();
 	var currentMinutes = dateUtil.todaysDate.getMinutes();
 	console.log("current hour" +currentHour);
