@@ -26,6 +26,7 @@
   "dependencies": {
     "blipp": "^2.3.0",
     "hapi": "^10.1.0",
+    "moment": "^2.10.6",
     "moment-timezone": "^0.4.1",
     "mongoose": "^4.1.9",
     "nodemailer": "^1.8.0"
