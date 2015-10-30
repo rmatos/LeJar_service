@@ -1,5 +1,7 @@
 var constants 	= require('../utilities/constants'),
 	utils 		= require('../utilities/utils'),
+	dateUtils	= require('../utilities/date_utils'),
+	modes 		= require('../utilities/modes'),
 	dbui   		= require('../jojos/dashboard_by_user_id');
 
 module.exports = function(server) {
@@ -81,9 +83,7 @@ module.exports = function(server) {
         	method: 'GET',
         	path: '/entries/todays',
         	handler: function(request, response) {
-        		var todaysDate = new Date();
-        		console.log(todaysDate);
-        		App.dbObj.Entry.find({entry_date: {"$gte": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '0', '0', '0'), "$lt": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '23', '59', '59')}},function(error, entries) {
+        		App.dbObj.Entry.find({entry_date: {"$gte": dateUtils.todaysMinDatetime, "$lt": dateUtils.todaysMaxDatetime}},function(error, entries) {
         			if (error) {
         				console.log("Error getting entry with message:" + error);
         				response({errorCode: 400, errorMessage: error });
@@ -107,8 +107,7 @@ module.exports = function(server) {
 							response(constants.INVALID_USER_ID);
 						} else {
 							console.log("User found with the following info: " + user._id);
-							var todaysDate = new Date();
-							App.dbObj.Entry.findOne({entry_date: {"$gte": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '0', '0', '0'), "$lt": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '23', '59', '59') }, user: user._id }, function(error, entries) {
+							App.dbObj.Entry.findOne({entry_date: {"$gte": dateUtils.todaysMinDatetime, "$lt": dateUtils.todaysMaxDatetime}, user: user._id }, function(error, entries) {
 								if (error) {
 									console.log("Error getting entry with message:" + error);
 									response({errorCode: 400, errorMessage: error });
@@ -134,7 +133,7 @@ module.exports = function(server) {
 				 	endingDateString = endingDateString.replace("-","/");
 					var	currentEndingDate = new Date(Date.parse(endingDateString));
 					if(currentStartingDate !== 'NaN' && currentEndingDate !== 'NaN' && currentStartingDate <= currentEndingDate){
-						App.dbObj.Entry.find({entry_date : {"$gte": new Date(currentStartingDate.getFullYear(), currentStartingDate.getMonth(), currentStartingDate.getDate(), '0', '0', '0'), "$lt": new Date(currentEndingDate.getFullYear(), currentEndingDate.getMonth(), currentEndingDate.getDate(), '23', '59', '59') }}, function(error, entries){
+						App.dbObj.Entry.find({entry_date : {"$gte": dateUtils.getMinForDate(currentStartingDate), "$lte": dateUtils.getMaxForDate(currentEndingDate)}}, function(error, entries){
 							if (error) {
 								console.log("Error getting entry with message:" + error);
 								response({errorCode: 400, errorMessage: error });
@@ -170,7 +169,7 @@ module.exports = function(server) {
 					 			endingDateString = endingDateString.replace("-","/");
 								var	currentEndingDate = new Date(Date.parse(endingDateString));
 								if(currentStartingDate !== 'NaN' && currentEndingDate !== 'NaN' && currentStartingDate <= currentEndingDate){
-									App.dbObj.Entry.find({entry_date : {"$gte": new Date(currentStartingDate.getFullYear(), currentStartingDate.getMonth(), currentStartingDate.getDate(), '0', '0', '0'), "$lt": new Date(currentEndingDate.getFullYear(), currentEndingDate.getMonth(), currentEndingDate.getDate(), '23', '59', '59') }, user : user._id}, function(error, entries){
+									App.dbObj.Entry.find({entry_date : {"$gte": dateUtils.getMinForDate(currentStartingDate), "$lte": dateUtils.getMaxForDate(currentEndingDate)}, user : user._id}, function(error, entries){
 										if (error) {
 											console.log("Error getting entry with message:" + error);
 											response({errorCode: 400, errorMessage: error });
@@ -193,13 +192,11 @@ module.exports = function(server) {
 		});
 
 		server.route({
-			method: 'GET',
-			path: '/entries/add/byUserId/{user_id}/{maintenance_amount?}',
+			method: 'POST',
+			path: '/entries/add',
 			handler: function(request, response) {
-
-				var userId 					= request.params.user_id;
-				var amountForMaintenance 	= request.params.maintenance_amount;
-
+				var userId 					= request.payload.user_id;
+				var amountForMaintenance 	= request.payload.maintenance_amount;
 				if (userId !== undefined) {
 					App.dbObj.User.findOne({_id: userId }, function(error, user) {
 						if (error || user === null) {
@@ -220,24 +217,14 @@ module.exports = function(server) {
 									response({message: "Invalid amount for Maintenance"});
 								}
 							}else{	
-								var todaysDate = new Date();
-								App.dbObj.Entry.findOne({entry_date: {"$gte": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '0', '0', '0'), "$lt": new Date(todaysDate.getFullYear(), todaysDate.getMonth(), todaysDate.getDate(), '23', '59', '59') }, user: user._id }, function(error, entry) {
+								App.dbObj.Entry.findOne({entry_date: {"$gte": dateUtils.todaysMinDatetime, "$lt": dateUtils.todaysMaxDatetime}, user: user._id }, function(error, entry) {
 									if (error) {
 										response({errorCode: 400, errorMessage: error });
 									} else {
-										console.log(entry);
 										if (entry !== null) {
 											response(constants.RECORD_ALREADY_CREATED);
 										} else {
-											var amount = utils.getRandomIndexFromArray(App.amounts);
-											var entryToSave = App.dbObj.Entry({entry_date: new Date(), amount: amount, paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL});
-											entryToSave.save(function(error) {
-												if (error) {
-													response({errorCode: 400, errorMessage: error });
-												} else {
-													response({"random_amount" : amount});
-												}
-											});
+											modes.generateEntryBasedOnCurrentAppMode(App.amounts,user, response);
 										}
 									}
 								});

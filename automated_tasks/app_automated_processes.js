@@ -1,7 +1,6 @@
 var nodemailer 	= require('nodemailer'),
 	db			= require('../config/db_schema');
 
-	
 function changeLeJarMode(){
 	if(new Date().getDay() === 1){
 		db.ApplicationConfig.findOne(function(error, appConfig){
@@ -36,22 +35,30 @@ function generateRandomMode(availableModes , currentMode){
 }
 
 function notifyUsers(applicationMode){
-	var transporter = nodemailer.createTransport({
-		service : 'Gmail',
-		auth:{
-			user : process.env.EMAIL_USERNAME,
-			pass : process.env.EMAIL_PASSWORD
-		}
-	});
-	var mailOptions = {
-		from 	: 'le-jar-service@lejar-service.noreply.com',
-		to 	 	: 'rmena28@gmail.com,rudy.e.matos@gmail.com,rudy12118@gmail.com',
-		subject : 'Application Mode has been changed.',
-		html 	: '<b>Application is currently running on '+applicationMode+' mode<b/>'
-	};
-	transporter.sendMail(mailOptions,function(error, info){
+	db.User.find({get_app_mode_changed_notification:true}, {"_id":false, "email":true}, function(error, usersToNotify){
+
 		if(error) return console.log(error);
-		console.log('Message sent succesfully with message : '+info.response);
+
+		var transporter = nodemailer.createTransport({
+			service : 'Gmail',
+			auth:{
+				user : process.env.EMAIL_USERNAME,
+				pass : process.env.EMAIL_PASSWORD
+			}
+		});
+
+		console.log("sending mail to  : " + usersToNotify.join());
+
+		var mailOptions = {
+			from 	: 'le-jar-service@lejar-service.noreply.com',
+			to 	 	: usersToNotify.join(),
+			subject : 'Application Mode has been changed.',
+			html 	: '<b>Application is currently running on '+applicationMode+' mode<b/>'
+		};
+		transporter.sendMail(mailOptions,function(error, info){
+			if(error) return console.log(error);
+			console.log('Message sent succesfully with message : '+info.response);
+		});
 	});
 }
 
