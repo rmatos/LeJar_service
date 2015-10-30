@@ -5,6 +5,7 @@ var entrySchema = new Schema({
 	entry_date : Date,
 	amount : Number,
 	paid : Boolean,
+	generated_on_mode : String,
 	user:{ type : Schema.Types.ObjectId, ref :'User' },
 	type : String,
 	approved_by:{ type : Schema.Types.ObjectId, ref : 'User'}
@@ -28,7 +29,7 @@ var applicationConfigSchema = new Schema({
 	application_version : String
 });
 
-var mongoConnectionString = process.env.MONGO_CONNECTION_STRING;
+var mongoConnectionString = process.env.MONGOLAB_URI;
 mongoose.connect(mongoConnectionString);
 
 exports.ApplicationConfig 	= mongoose.model('Application_Config', applicationConfigSchema); 
