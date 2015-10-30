@@ -1,7 +1,7 @@
-var moment 		= require('moment-timezone'),
-	dateString 	= moment().format("YYYY-MM-DDTHH:mm:ss");
 
-exports.todaysDate = moment.utc(dateString).utcOffset(process.env.UTC_OFFSET).toDate();
+var offset = 240 * 60 * 1000;
+
+exports.todaysDate = new Date(new Date(new Date().getTime()-offset));
 exports.todaysMinDatetime = new Date(exports.todaysDate.getFullYear(), exports.todaysDate.getMonth(), exports.todaysDate.getDate(),'0','0','0');
 exports.todaysMaxDatetime = new Date(exports.todaysDate.getFullYear(), exports.todaysDate.getMonth(), exports.todaysDate.getDate(),'23','59','59');
 
