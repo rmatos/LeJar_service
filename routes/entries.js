@@ -10,7 +10,14 @@ module.exports = function(server) {
         	method: 'GET',
         	path: '/entries/all',
         	handler: function(request, response) {
-        		response(App.dbObj.Entry.find());
+        		App.dbObj.Entry.find().exec(function(error, entries){
+				if(error){
+					console.log("Error gettting all the entries"); 
+					response({"errorMessage": "Error getting entries with message: "+error});
+				}else{
+					response({"entries":entries});
+				}
+			});
         	}
         });
 
