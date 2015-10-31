@@ -40,7 +40,7 @@ module.exports = function(server){
 					console.log("Error gettting the user"); 
 					response({"errorMessage": "Error getting users with message: "+error});
 				}else{
-					response({"users":users});
+					response(users);
 				}
 			});
 		}

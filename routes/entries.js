@@ -15,7 +15,7 @@ module.exports = function(server) {
 					console.log("Error gettting all the entries"); 
 					response({"errorMessage": "Error getting entries with message: "+error});
 				}else{
-					response({"entries":entries});
+					response(entries);
 				}
 			});
         	}
