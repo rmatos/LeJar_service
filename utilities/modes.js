@@ -27,13 +27,13 @@ exports.generateEntryBasedOnCurrentAppMode = function generateEntryBasedOnCurren
 function saveEntity(amount, user, mode,response){
 	if(amount > 0){
 		var entryToSave = App.dbObj.Entry({entry_date: dateUtil.todaysDate, amount: amount, paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL, generated_on_mode : mode});
-		// entryToSave.save(function(error) {
-		// 	if (error) {
-		// 		response({errorCode: 400, errorMessage: error });
-		// 	} else {
+		entryToSave.save(function(error) {
+			if (error) {
+				response({errorCode: 400, errorMessage: error });
+			} else {
 				response({"random_amount" : amount});
-		// 	}
-		// });
+			}
+		});
 	}else{
 		response({"errorMessage" : "There was an error generating the amount."});
 	}
@@ -81,16 +81,23 @@ function pacificMode(user,response){
 	var amount = 0;
 	var currentHour = dateUtil.todaysDate.getHours();
 	var currentMinutes = dateUtil.todaysDate.getMinutes();
+	console.log(currentHour);
+	console.log(currentMinutes);
 	if(currentHour >= 9 && currentMinutes >= 11){
-		if(currentMinutes >= 11 && currentMinutes <= 20){
-			amount = 25;
-		}else if(currentMinutes >= 21 && currentMinutes <=30){
-			amount = 50;
-		}else if(currentMinutes >= 31 && currentMinutes <= 45){
-			amount = 75;
+		if(currentHour == 9){
+			if(currentMinutes >= 11 && currentMinutes <= 20){
+				amount = 25;
+			}else if(currentMinutes >= 21 && currentMinutes <=30){
+				amount = 50;
+			}else if(currentMinutes >= 31 && currentMinutes <= 45){
+				amount = 75;
+			}else{
+				amount = 100;
+			}	
 		}else{
 			amount = 100;
 		}
+		
 	}
 	saveEntity(amount,user, 'pacific',response);
 }
