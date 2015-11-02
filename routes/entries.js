@@ -246,10 +246,10 @@ module.exports = function(server) {
 
 		server.route({
 			method: 'PUT',
-			path: '/entries/paid/byEntryId/{entry_id}/approvedByUserId/{user_id}',
+			path: '/entries/paid',
 			handler: function(request, response) {
-				var entryId = request.params.entry_id;
-				var userId 	=request.params.user_id;
+				var entryId 	= request.payload.entry_id;
+				var userId 	=request.payload.user_id;
 				if (entryId !== undefined && userId !== undefined) {
 					App.dbObj.User.findOne({_id:userId}, function(error, approver){
 						if(error || approver === null){
@@ -288,9 +288,9 @@ module.exports = function(server) {
 
 		server.route({
 			method: 'DELETE',
-			path: '/entries/cancel/byEntryId/{entry_id}',
+			path: '/entries/cancel',
 			handler: function(request, response) {
-				var entryId 					= request.params.entry_id;
+				var entryId = request.payload.entry_id;
 				if (entryId !== undefined) {
 					App.dbObj.Entry.findOneAndRemove({_id: entryId }, function(error, entry) {
 						if (error || entry === null) {
