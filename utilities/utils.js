@@ -30,7 +30,7 @@ exports.calculateTodaysPersonalBalance = function calculateTodaysPersronalBalanc
 	};
 	if(entries !== undefined && entries.length > 0){
 		for (var i = 0; i <= entries.length -1 ; i++) {
-			if(entries[i] !== undefined && entries[i].entry_date >= dateUtils.todaysMinDatetime && entries[i].entry_date <= dateUtils.todaysMaxDatetime && entries[i].user.toString() === user_id.toString()){
+			if(entries[i] !== undefined && entries[i].entry_date >= dateUtils.todaysMinDatetime() && entries[i].entry_date <= dateUtils.todaysMaxDatetime() && entries[i].user.toString() === user_id.toString()){
 				if(entries[i].paid === true){
 					todaysPersonalBalance.todays_personal_balance_paid += entries[i].amount;
 				}else{

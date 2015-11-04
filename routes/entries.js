@@ -90,7 +90,7 @@ module.exports = function(server) {
         	method: 'GET',
         	path: '/entries/todays',
         	handler: function(request, response) {
-        		App.dbObj.Entry.find({entry_date: {"$gte": dateUtils.todaysMinDatetime, "$lt": dateUtils.todaysMaxDatetime}},function(error, entries) {
+        		App.dbObj.Entry.find({entry_date: {"$gte": dateUtils.todaysMinDatetime(), "$lt": dateUtils.todaysMaxDatetime()}},function(error, entries) {
         			if (error) {
         				console.log("Error getting entry with message:" + error);
         				response({errorCode: 400, errorMessage: error });
@@ -114,7 +114,7 @@ module.exports = function(server) {
 							response(constants.INVALID_USER_ID);
 						} else {
 							console.log("User found with the following info: " + user._id);
-							App.dbObj.Entry.findOne({entry_date: {"$gte": dateUtils.todaysMinDatetime, "$lt": dateUtils.todaysMaxDatetime}, user: user._id }, function(error, entries) {
+							App.dbObj.Entry.findOne({entry_date: {"$gte": dateUtils.todaysMinDatetime(), "$lt": dateUtils.todaysMaxDatetime()}, user: user._id }, function(error, entries) {
 								if (error) {
 									console.log("Error getting entry with message:" + error);
 									response({errorCode: 400, errorMessage: error });
@@ -223,8 +223,8 @@ module.exports = function(server) {
 								}else{
 									response({message: "Invalid amount for Maintenance"});
 								}
-							}else{	
-								App.dbObj.Entry.findOne({entry_date: {"$gte": dateUtils.todaysMinDatetime, "$lt": dateUtils.todaysMaxDatetime}, user: user._id }, function(error, entry) {
+							}else{			
+								App.dbObj.Entry.findOne({entry_date: {"$gte": dateUtils.todaysMinDatetime(), "$lte": dateUtils.todaysMaxDatetime()}, user: user._id }, function(error, entry) {
 									if (error) {
 										response({errorCode: 400, errorMessage: error });
 									} else {

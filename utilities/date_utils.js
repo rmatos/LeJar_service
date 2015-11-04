@@ -1,9 +1,17 @@
 
-var offset = 240 * 60 * 1000;
+exports.offset = 240 * 60 * 1000;
 
-exports.todaysDate = new Date(new Date(new Date().getTime()-offset));
-exports.todaysMinDatetime = new Date(exports.todaysDate.getFullYear(), exports.todaysDate.getMonth(), exports.todaysDate.getDate(),'0','0','0');
-exports.todaysMaxDatetime = new Date(exports.todaysDate.getFullYear(), exports.todaysDate.getMonth(), exports.todaysDate.getDate(),'23','59','59');
+exports.todaysDate = function getTodaysDate(){
+	return new Date(new Date(new Date().getTime()-exports.offset));
+};
+
+exports.todaysMinDatetime = function todaysMinDatetime(){
+ return new Date(exports.todaysDate().getFullYear(), exports.todaysDate().getMonth(), exports.todaysDate().getDate(),'0','0','0');
+};
+
+exports.todaysMaxDatetime = function todaysMaxDatetime(){
+	return new Date(exports.todaysDate().getFullYear(), exports.todaysDate().getMonth(), exports.todaysDate().getDate(),'23','59','59');
+};
 
 exports.getMonday = function getMonday(d) {
   var day = d.getDay();

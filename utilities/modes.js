@@ -26,7 +26,8 @@ exports.generateEntryBasedOnCurrentAppMode = function generateEntryBasedOnCurren
 
 function saveEntity(amount, user, mode,response){
 	if(amount > 0){
-		var entryToSave = App.dbObj.Entry({entry_date: dateUtil.todaysDate, amount: amount, paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL, generated_on_mode : mode});
+		var entryToSave = App.dbObj.Entry({entry_date: dateUtil.todaysDate(), amount: amount, paid : false, user: user._id, type: constants.ENTRY_TYPE_NORMAL, generated_on_mode : mode});
+		console.log("saving entry with date : "+entryToSave.entry_date);
 		entryToSave.save(function(error) {
 			if (error) {
 				response({errorCode: 400, errorMessage: error });
@@ -41,7 +42,7 @@ function saveEntity(amount, user, mode,response){
 
 function ledderMode(user,response){
 	var amount 	 	= 0,
-		minMonday 	= dateUtil.getMinForDate(dateUtil.getMonday(dateUtil.todaysDate)),
+		minMonday 	= dateUtil.getMinForDate(dateUtil.getMonday(dateUtil.todaysDate())),
 		maxFriday 	= dateUtil.getMaxForDate(dateUtil.getFridayBasedOnMonday(minMonday));
 	
 	db.Entry.find({"user" : user._id, "entry_date" : {"$gte" : minMonday, "$lte" : maxFriday}},function(error , entries){
@@ -59,10 +60,11 @@ function ledderMode(user,response){
 }
 
 function suddenDeath(validAmountsArray, user, response){
-	var minMonday 	= dateUtil.getMinForDate(dateUtil.getMonday(dateUtil.todaysDate)),
+	var minMonday 	= dateUtil.getMinForDate(dateUtil.getMonday(dateUtil.todaysDate())),
 		maxFriday 	= dateUtil.getMaxForDate(dateUtil.getFridayBasedOnMonday(minMonday));
 	db.Entry.find({"user" : user._id, "entry_date" : {"$gte" : minMonday, "$lte" : maxFriday}}, {"_id" : false, "amount" : true},function(error , currentEntriesAmounts){
-		if(error) response({"errorMessage":error});		
+		if(error) response({"errorMessage":error});	
+		console.log(validAmountsArray);	
 		var validAmountsArray_Copy = validAmountsArray.slice();
 		currentEntriesAmounts.forEach(function(currentEntryAmount){
 			var valueIndex = validAmountsArray_Copy.indexOf(currentEntryAmount.amount);
@@ -79,8 +81,8 @@ function suddenDeath(validAmountsArray, user, response){
 
 function pacificMode(user,response){
 	var amount = 0;
-	var currentHour = dateUtil.todaysDate.getHours();
-	var currentMinutes = dateUtil.todaysDate.getMinutes();
+	var currentHour = dateUtil.todaysDate().getHours();
+	var currentMinutes = dateUtil.todaysDate().getMinutes();
 	console.log(currentHour);
 	console.log(currentMinutes);
 	if(currentHour >= 9 && currentMinutes >= 11){
