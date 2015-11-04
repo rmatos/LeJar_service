@@ -34,7 +34,7 @@ global.App = {
 				console.log("Error starting hapi server with error: "+error);
 			}else{
 				App.hapiServer.start(function(){
-					console.log('Version' + App.version +' running at: '+ App.hapiServer.info.uri + "("+new Date()+")");
+					console.log('Version' + App.version +' running at: '+ App.hapiServer.info.uri + "("+new Date()+"(UAT))");
 				});
 			}
 		});
